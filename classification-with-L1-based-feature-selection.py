@@ -3,7 +3,7 @@
 
 # Import libraries:
 
-# In[67]:
+# In[77]:
 
 
 import pandas as pd
@@ -29,7 +29,7 @@ from sklearn.svm import SVC
 # 
 # So, we expect a 280x(216+1) matrix, where the last column is the "label" (1 = good roof-tile or 2 = roof-tile with problems).
 
-# In[68]:
+# In[78]:
 
 
 dt = pd.read_csv("dataset.csv")
@@ -38,7 +38,7 @@ dt.shape
 
 # Lets see how our data looks like:
 
-# In[69]:
+# In[79]:
 
 
 dt.head()
@@ -50,7 +50,7 @@ dt.head()
 # 
 # Y will be a vector containing the labels of all observations.
 
-# In[70]:
+# In[80]:
 
 
 array = dt.values
@@ -61,7 +61,7 @@ X.shape
 
 # Now, we need to make the data sets to train and to validate the models. The choosed proportion is: 70% to test and 30% to validate.
 
-# In[71]:
+# In[81]:
 
 
 validation_size = 0.30
@@ -77,7 +77,7 @@ X_train.shape
 # 
 # Its importante to say that smaller C implies in fewer features selected.
 
-# In[72]:
+# In[82]:
 
 
 lsvc = LinearSVC(C=0.01, penalty="l1", dual=False).fit(X_train, y_train)
@@ -89,9 +89,9 @@ X_train_new.shape
 # ### Select a classifier
 # We will evaluate six classifiers, to choose the best model to classify our validation data. The criteria to choose the best is the accuracy of the model on the train data.
 # 
-# We use a cross-validation (k-fold with k = 10) to evaluate the models
+# We use a cross-validation (k-fold with k = 10) to evaluate the models.
 
-# In[73]:
+# In[83]:
 
 
 models = []
@@ -114,9 +114,9 @@ for name, model in models:
 	print(msg)
 
 
-# Selected the best classifier model
+# Selected the best classifier model:
 
-# In[74]:
+# In[84]:
 
 
 best_model_idx = results.index(max(results))
@@ -124,10 +124,9 @@ best_model = models[best_model_idx]
 best_model[0]
 
 
-# Transform the validation input data to reduce the number of features
-# We will use our modellsvc to do the feature selection here
+# Transform the validation input data to reduce the number of features. To do that, we will use our modellsvc, already created, to do the feature selection here.
 
-# In[75]:
+# In[85]:
 
 
 X_validation_new = modellsvc.transform(X_validation)
@@ -135,9 +134,9 @@ X_validation_new.shape
 
 
 # ### Make the predictions on validation data
-# Finally, we evaluate the accuracy of our proposed model making the predictions of X_validation_new
+# Finally, we evaluate the accuracy of our proposed model making the predictions of X_validation_new:
 
-# In[76]:
+# In[86]:
 
 
 best_model[1].fit(X_train_new, y_train)
